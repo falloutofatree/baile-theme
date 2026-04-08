@@ -21,7 +21,7 @@ Choose a theme from the Shopify Theme Store and install it.
 Install [Shopify CLI](https://shopify.dev/docs/themes/tools/cli):
 
 ```bash
-npm install -g @shopify/cli @shopify/theme
+npm install -g @shopify/cli@latest
 ```
 
 Now log in (this opens your browser so you can sign in the usual way):
