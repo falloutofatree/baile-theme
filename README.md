@@ -33,12 +33,10 @@ shopify auth login
 ### 3. Initialize workflow scaffolding
 
 ```bash
-git init
-git remote add workflow https://github.com/falloutofatree/shopify-theme-init.git
-git pull workflow main
-git remote remove workflow
+git clone https://github.com/falloutofatree/shopify-theme-init.git [theme-name]
+cd [theme-name]
 ```
-This pulls in `.gitignore`, `.shopifyignore`, `shopify-theme.toml`, and this README from the workflow repo.
+This gives you `.gitignore`, `.shopifyignore`, `shopify-theme.toml`, and this README.
 
 ### 4. Configure the local environment
 
@@ -63,7 +61,7 @@ shopify theme pull
 Create a new repository on GitHub for the theme, then connect it and push:
 
 ```bash
-git remote add origin git@github.com:[your-org]/[theme-repo].git
+git remote set-url origin git@github.com:[your-org]/[theme-repo].git
 git add . && git commit -m "chore: initial theme pull"
 git push -u origin main
 ```
