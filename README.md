@@ -6,7 +6,7 @@ Pragmatic workflow for developing and maintaining stores built on off-the-shelf 
 * Pull in Shopify Admin code/template changes (including Theme Store updates)
 * Exclude content and settings from Git
 
-**v1.0.0**
+**v1.1.0**
 
 ---
 
@@ -14,10 +14,23 @@ Pragmatic workflow for developing and maintaining stores built on off-the-shelf 
 
 ### 1. Install a theme via Shopify Admin
 
-Choose a theme from the Shopify Theme Store.
-Note its numeric ID (visible in the URL when previewing or editing).
+Choose a theme from the Shopify Theme Store and install it.
 
-### 2. Pull in the workflow scaffolding
+### 2. Install Shopify CLI and log in
+
+Install [Shopify CLI](https://shopify.dev/docs/themes/tools/cli):
+
+```bash
+npm install -g @shopify/cli @shopify/theme
+```
+
+Now log in (this opens your browser so you can sign in the usual way):
+
+```bash
+shopify auth login
+```
+
+### 3. Initialize workflow scaffolding
 
 ```bash
 git init
@@ -25,34 +38,33 @@ git remote add workflow https://github.com/falloutofatree/shopify-theme-init.git
 git pull workflow main
 git remote remove workflow
 ```
-This pulls in `.gitignore`, `.shopifyignore`, `shopify-theme.toml`, and this README from the workflow repo, then detaches from it.
+This pulls in `.gitignore`, `.shopifyignore`, `shopify-theme.toml`, and this README from the workflow repo.
 
-### 3. Configure your local environment
+### 4. Configure the local environment
 
-Edit `shopify.theme.toml`:
+In `shopify.theme.toml`, fill in the `store` and `theme` lines and uncomment them:
 
 ```toml
 [environments.default]
-store = "*yourstore*.myshopify.com"
-theme = "*your-theme-id*"
+store = "yourstore.myshopify.com"
+theme = "your-theme-id"
 ```
 
-### 4. Pull theme files
+⚠️ Double-check your theme ID — you don't want to make changes to the wrong theme.
 
-Install [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) if needed.
-
-Then pull down your theme.
+### 5. Pull theme files
 
 ```bash
-shopify auth login
 shopify theme pull
 ```
 
-### 5. Commit to your repo
+### 6. Create a theme repo and push
+
+Create a new repository on GitHub for the theme, then connect it and push:
 
 ```bash
-git add . && git commit -m "feat: initial commit"
 git remote add origin git@github.com:[your-org]/[theme-repo].git
+git add . && git commit -m "chore: initial theme pull"
 git push -u origin main
 ```
 
@@ -66,9 +78,9 @@ You're ready to develop.
 shopify theme pull && git diff  # Pull and inspect any admin-side changes
 # Make your changes
 shopify theme dev               # Preview locally
-git add . && git commit -m "feat: initial commit"
+git add . && git commit -m "feat: describe your change"
 git push origin main
-shopify theme push              # Deploy (skips content/settings)
+shopify theme push              # Deploy (doesn't touch content/settings)
 ```
 
 ---
@@ -83,10 +95,7 @@ Here's how to deal with theme edits that happen directly in the Shopify Admin:
   Review, commit, and push.
 
 * **Admin-side theme version updates (applies only to themes installed from the Theme Store)**
-  When a new version is available for a theme in the Shopify Admin and someone clicks Update,
-  Shopify duplicates and applies changes within the duplicated theme; the original remains untouched.
-
-  Important: The updated theme has a new ID. Make sure to update the theme ID in `shopify.theme.toml`.
+  When someone clicks Update in the Shopify Admin, Shopify creates a new copy of the theme with the updates applied. This new theme has a different ID, so you'll need to update `shopify.theme.toml` to point to it.
 
   ```bash
   shopify theme list                          # Find the new theme ID
@@ -111,9 +120,4 @@ Here's how to deal with theme edits that happen directly in the Shopify Admin:
 
 ## ⚠️ (Optional) Track settings
 
-By default, `config/settings_data.json` is ignored.
-If you want to version control site settings:
-
-Comment out `config/settings_data.json` in `.gitignore`
-
-**Warning:** We *strongly* recommend keeping the settings file ignored.
+`config/settings_data.json` is ignored by default because settings change frequently in the Admin, causing noise and conflicts. If you must track it, comment it out in `.gitignore`.
