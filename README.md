@@ -30,39 +30,38 @@ Now log in (this opens your browser so you can sign in the usual way):
 shopify auth login
 ```
 
-### 3. Initialize workflow scaffolding
+### 3. Create a theme repo
+
+Create a new repository on GitHub for the theme (e.g. `my-store-theme`).
+
+### 4. Clone the workflow scaffolding
 
 ```bash
-git clone https://github.com/falloutofatree/shopify-theme-init.git [theme-name]
-cd [theme-name]
+git clone https://github.com/falloutofatree/shopify-theme-init.git
+mv shopify-theme-init my-store-theme
+cd my-store-theme
+git remote set-url origin git@github.com:my-org/my-store-theme.git
 ```
 This gives you `.gitignore`, `.shopifyignore`, `shopify-theme.toml`, and this README.
 
-### 4. Configure the local environment
+### 5. Configure the local environment
 
 In `shopify.theme.toml`, fill in the `store` and `theme` lines and uncomment them:
 
 ```toml
 [environments.default]
-store = "yourstore.myshopify.com"
-theme = "your-theme-id"
+store = "my-store.myshopify.com"
+theme = "my-theme-id"
 ```
 
 ⚠️ Double-check your theme ID — you don't want to make changes to the wrong theme.
 
-### 5. Pull theme files
+### 6. Pull theme files, commit, and push
 
 ```bash
 shopify theme pull
-```
-
-### 6. Create a theme repo and push
-
-Create a new repository on GitHub for the theme, then connect it and push:
-
-```bash
-git remote set-url origin git@github.com:[your-org]/[theme-repo].git
-git add . && git commit -m "chore: initial theme pull"
+git add .
+git commit -m "chore: initial theme pull"
 git push -u origin main
 ```
 
@@ -73,10 +72,12 @@ You're ready to develop.
 ## 🧑‍💻 Usage
 
 ```bash
-shopify theme pull && git diff  # Pull and inspect any admin-side changes
+shopify theme pull
+git diff                        # Inspect any admin-side changes
 # Make your changes
 shopify theme dev               # Preview locally
-git add . && git commit -m "feat: describe your change"
+git add .
+git commit -m "feat: describe your change"
 git push origin main
 shopify theme push              # Deploy (doesn't touch content/settings)
 ```
@@ -89,7 +90,7 @@ Here's how to deal with theme edits that happen directly in the Shopify Admin:
 
 * **Admin-side template edits**
   To check for edits to templates, code, or settings in the Shopify Admin affecting the codebase:
-  Run `shopify theme pull && git diff` and inspect what changed.
+  Run `shopify theme pull`, then `git diff`, and inspect what changed.
   Review, commit, and push.
 
 * **Admin-side theme version updates (applies only to themes installed from the Theme Store)**
@@ -98,8 +99,10 @@ Here's how to deal with theme edits that happen directly in the Shopify Admin:
   ```bash
   shopify theme list                          # Find the new theme ID
   vi shopify.theme.toml                       # Update theme ID
-  shopify theme pull && git diff              # Inspect everything the update changed
-  git add . && git commit -m "chore: theme update vX.X.X"
+  shopify theme pull
+  git diff                                    # Inspect everything the update changed
+  git add .
+  git commit -m "chore: theme update vX.X.X"
   ```
 
   ⚠️ Commit the raw update before making any fixes.
