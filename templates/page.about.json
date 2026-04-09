@@ -636,10 +636,51 @@
             "button_EhVC7e",
             "spacer_6UNqqC"
           ]
+        },
+        "ai_gen_block_10f976a_nHiGFR": {
+          "type": "ai_gen_block_10f976a",
+          "name": "Magazine editorial",
+          "disabled": true,
+          "settings": {
+            "desktop_width_percent": 100,
+            "section_padding": 60,
+            "grid_gap": 20,
+            "background_color": "#ffffff",
+            "text_color": "#2c332f",
+            "accent_color": "#5d5e4c",
+            "overlay_opacity": 40,
+            "hero_category": "Featured",
+            "hero_title": "The Art of Slow Living",
+            "hero_excerpt": "Discover how embracing a slower pace can transform your daily rituals and bring more meaning to everyday moments.",
+            "hero_link": "",
+            "hero_text_color": "#ffffff",
+            "hero_title_size": 48,
+            "hero_excerpt_size": 16,
+            "card_1_category": "Lifestyle",
+            "card_1_title": "Morning Rituals",
+            "card_1_excerpt": "Simple practices to start your day with intention and clarity.",
+            "card_1_link": "",
+            "card_2_category": "Design",
+            "card_2_title": "Minimalist Spaces",
+            "card_2_excerpt": "Creating calm through thoughtful design and intentional curation.",
+            "card_2_link": "",
+            "card_title_size": 20,
+            "card_excerpt_size": 14,
+            "feature_1_category": "Culture",
+            "feature_1_title": "Artisan Stories",
+            "feature_1_link": "",
+            "feature_2_category": "Travel",
+            "feature_2_title": "Hidden Destinations",
+            "feature_2_link": "",
+            "feature_text_color": "#ffffff",
+            "feature_title_size": 32
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "group_WXbHck"
+        "group_WXbHck",
+        "ai_gen_block_10f976a_nHiGFR"
       ],
       "name": "t:names.custom_section",
       "settings": {

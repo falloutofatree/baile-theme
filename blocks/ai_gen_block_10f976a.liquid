@@ -1,0 +1,739 @@
+{% doc %}
+  @prompt
+    A magazine-style editorial layout
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-editorial-layout-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-editorial-container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-editorial-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+    margin-bottom: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-editorial-hero-{{ ai_gen_id }} {
+    grid-column: span 8;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-editorial-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 600px;
+  }
+
+  .ai-editorial-hero-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    min-height: 600px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-editorial-hero-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-editorial-hero-content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    right: 40px;
+    color: {{ block.settings.hero_text_color }};
+    z-index: 2;
+  }
+
+  .ai-editorial-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,{{ block.settings.overlay_opacity | divided_by: 100.0 }}), transparent);
+    z-index: 1;
+  }
+
+  .ai-editorial-hero-category-{{ ai_gen_id }} {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .ai-editorial-hero-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_title_size }}px;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+
+  .ai-editorial-hero-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_excerpt_size }}px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .ai-editorial-sidebar-{{ ai_gen_id }} {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-editorial-card-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+  }
+
+  .ai-editorial-card-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-editorial-card-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 280px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-editorial-card-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .ai-editorial-card-content-{{ ai_gen_id }} {
+    padding: 24px;
+  }
+
+  .ai-editorial-card-category-{{ ai_gen_id }} {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: {{ block.settings.accent_color }};
+    font-weight: 600;
+  }
+
+  .ai-editorial-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    line-height: 1.3;
+    margin: 0 0 12px;
+    color: {{ block.settings.text_color }};
+    font-weight: 400;
+  }
+
+  .ai-editorial-card-excerpt-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_excerpt_size }}px;
+    line-height: 1.6;
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+  }
+
+  .ai-editorial-secondary-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-editorial-feature-{{ ai_gen_id }} {
+    grid-column: span 6;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-editorial-feature-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-editorial-feature-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 400px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-editorial-feature-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-editorial-feature-content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    color: {{ block.settings.feature_text_color }};
+    z-index: 2;
+  }
+
+  .ai-editorial-feature-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,{{ block.settings.overlay_opacity | divided_by: 100.0 }}), transparent);
+    z-index: 1;
+  }
+
+  .ai-editorial-feature-category-{{ ai_gen_id }} {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .ai-editorial-feature-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.feature_title_size }}px;
+    line-height: 1.2;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .ai-editorial-link-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    text-indent: -9999px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-editorial-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-editorial-hero-{{ ai_gen_id }},
+    .ai-editorial-sidebar-{{ ai_gen_id }} {
+      grid-column: span 1;
+    }
+
+    .ai-editorial-secondary-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-editorial-feature-{{ ai_gen_id }} {
+      grid-column: span 1;
+    }
+
+    .ai-editorial-hero-image-{{ ai_gen_id }},
+    .ai-editorial-hero-placeholder-{{ ai_gen_id }} {
+      min-height: 400px;
+    }
+
+    .ai-editorial-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_title_size | times: 0.7 }}px;
+    }
+
+    .ai-editorial-feature-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.feature_title_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<editorial-layout-{{ ai_gen_id }} class="ai-editorial-layout-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-editorial-container-{{ ai_gen_id }}">
+    <div class="ai-editorial-grid-{{ ai_gen_id }}">
+      <div class="ai-editorial-hero-{{ ai_gen_id }}">
+        {% if block.settings.hero_image %}
+          <img
+            src="{{ block.settings.hero_image | image_url: width: 1600 }}"
+            alt="{{ block.settings.hero_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.hero_image.width }}"
+            height="{{ block.settings.hero_image.height }}"
+            class="ai-editorial-card-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-editorial-hero-placeholder-{{ ai_gen_id }}">
+            {{ 'hero-apparel-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <div class="ai-editorial-hero-overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-editorial-hero-content-{{ ai_gen_id }}">
+          {% if block.settings.hero_category != blank %}
+            <div class="ai-editorial-hero-category-{{ ai_gen_id }}">{{ block.settings.hero_category }}</div>
+          {% endif %}
+          {% if block.settings.hero_title != blank %}
+            <h2 class="ai-editorial-hero-title-{{ ai_gen_id }}">{{ block.settings.hero_title }}</h2>
+          {% endif %}
+          {% if block.settings.hero_excerpt != blank %}
+            <p class="ai-editorial-hero-excerpt-{{ ai_gen_id }}">{{ block.settings.hero_excerpt }}</p>
+          {% endif %}
+        </div>
+        {% if block.settings.hero_link %}
+          <a href="{{ block.settings.hero_link }}" class="ai-editorial-link-{{ ai_gen_id }}">Read more</a>
+        {% endif %}
+      </div>
+
+      <div class="ai-editorial-sidebar-{{ ai_gen_id }}">
+        <div class="ai-editorial-card-{{ ai_gen_id }}">
+          {% if block.settings.card_1_image %}
+            <img
+              src="{{ block.settings.card_1_image | image_url: width: 800 }}"
+              alt="{{ block.settings.card_1_image.alt | escape }}"
+              loading="lazy"
+              width="{{ block.settings.card_1_image.width }}"
+              height="{{ block.settings.card_1_image.height }}"
+              class="ai-editorial-card-image-{{ ai_gen_id }}"
+            >
+          {% else %}
+            <div class="ai-editorial-card-placeholder-{{ ai_gen_id }}">
+              {{ 'product-apparel-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+          <div class="ai-editorial-card-content-{{ ai_gen_id }}">
+            {% if block.settings.card_1_category != blank %}
+              <div class="ai-editorial-card-category-{{ ai_gen_id }}">{{ block.settings.card_1_category }}</div>
+            {% endif %}
+            {% if block.settings.card_1_title != blank %}
+              <h3 class="ai-editorial-card-title-{{ ai_gen_id }}">{{ block.settings.card_1_title }}</h3>
+            {% endif %}
+            {% if block.settings.card_1_excerpt != blank %}
+              <p class="ai-editorial-card-excerpt-{{ ai_gen_id }}">{{ block.settings.card_1_excerpt }}</p>
+            {% endif %}
+          </div>
+          {% if block.settings.card_1_link %}
+            <a href="{{ block.settings.card_1_link }}" class="ai-editorial-link-{{ ai_gen_id }}">Read more</a>
+          {% endif %}
+        </div>
+
+        <div class="ai-editorial-card-{{ ai_gen_id }}">
+          {% if block.settings.card_2_image %}
+            <img
+              src="{{ block.settings.card_2_image | image_url: width: 800 }}"
+              alt="{{ block.settings.card_2_image.alt | escape }}"
+              loading="lazy"
+              width="{{ block.settings.card_2_image.width }}"
+              height="{{ block.settings.card_2_image.height }}"
+              class="ai-editorial-card-image-{{ ai_gen_id }}"
+            >
+          {% else %}
+            <div class="ai-editorial-card-placeholder-{{ ai_gen_id }}">
+              {{ 'collection-apparel-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+          <div class="ai-editorial-card-content-{{ ai_gen_id }}">
+            {% if block.settings.card_2_category != blank %}
+              <div class="ai-editorial-card-category-{{ ai_gen_id }}">{{ block.settings.card_2_category }}</div>
+            {% endif %}
+            {% if block.settings.card_2_title != blank %}
+              <h3 class="ai-editorial-card-title-{{ ai_gen_id }}">{{ block.settings.card_2_title }}</h3>
+            {% endif %}
+            {% if block.settings.card_2_excerpt != blank %}
+              <p class="ai-editorial-card-excerpt-{{ ai_gen_id }}">{{ block.settings.card_2_excerpt }}</p>
+            {% endif %}
+          </div>
+          {% if block.settings.card_2_link %}
+            <a href="{{ block.settings.card_2_link }}" class="ai-editorial-link-{{ ai_gen_id }}">Read more</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-editorial-secondary-grid-{{ ai_gen_id }}">
+      <div class="ai-editorial-feature-{{ ai_gen_id }}">
+        {% if block.settings.feature_1_image %}
+          <img
+            src="{{ block.settings.feature_1_image | image_url: width: 1200 }}"
+            alt="{{ block.settings.feature_1_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.feature_1_image.width }}"
+            height="{{ block.settings.feature_1_image.height }}"
+            class="ai-editorial-feature-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-editorial-feature-placeholder-{{ ai_gen_id }}">
+            {{ 'detailed-apparel-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <div class="ai-editorial-feature-overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-editorial-feature-content-{{ ai_gen_id }}">
+          {% if block.settings.feature_1_category != blank %}
+            <div class="ai-editorial-feature-category-{{ ai_gen_id }}">{{ block.settings.feature_1_category }}</div>
+          {% endif %}
+          {% if block.settings.feature_1_title != blank %}
+            <h3 class="ai-editorial-feature-title-{{ ai_gen_id }}">{{ block.settings.feature_1_title }}</h3>
+          {% endif %}
+        </div>
+        {% if block.settings.feature_1_link %}
+          <a href="{{ block.settings.feature_1_link }}" class="ai-editorial-link-{{ ai_gen_id }}">Read more</a>
+        {% endif %}
+      </div>
+
+      <div class="ai-editorial-feature-{{ ai_gen_id }}">
+        {% if block.settings.feature_2_image %}
+          <img
+            src="{{ block.settings.feature_2_image | image_url: width: 1200 }}"
+            alt="{{ block.settings.feature_2_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.feature_2_image.width }}"
+            height="{{ block.settings.feature_2_image.height }}"
+            class="ai-editorial-feature-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-editorial-feature-placeholder-{{ ai_gen_id }}">
+            {{ 'blog-apparel-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <div class="ai-editorial-feature-overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-editorial-feature-content-{{ ai_gen_id }}">
+          {% if block.settings.feature_2_category != blank %}
+            <div class="ai-editorial-feature-category-{{ ai_gen_id }}">{{ block.settings.feature_2_category }}</div>
+          {% endif %}
+          {% if block.settings.feature_2_title != blank %}
+            <h3 class="ai-editorial-feature-title-{{ ai_gen_id }}">{{ block.settings.feature_2_title }}</h3>
+          {% endif %}
+        </div>
+        {% if block.settings.feature_2_link %}
+          <a href="{{ block.settings.feature_2_link }}" class="ai-editorial-link-{{ ai_gen_id }}">Read more</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</editorial-layout-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class EditorialLayout{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('editorial-layout-{{ ai_gen_id }}', EditorialLayout{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Magazine editorial",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#2c332f"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#5d5e4c"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Hero article"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_category",
+      "label": "Category",
+      "default": "Featured"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "The Art of Slow Living"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_excerpt",
+      "label": "Excerpt",
+      "default": "Discover how embracing a slower pace can transform your daily rituals and bring more meaning to everyday moments."
+    },
+    {
+      "type": "url",
+      "id": "hero_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "hero_title_size",
+      "label": "Title size",
+      "min": 24,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "hero_excerpt_size",
+      "label": "Excerpt size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_1_category",
+      "label": "Category",
+      "default": "Lifestyle"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Morning Rituals"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_excerpt",
+      "label": "Excerpt",
+      "default": "Simple practices to start your day with intention and clarity."
+    },
+    {
+      "type": "url",
+      "id": "card_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_2_category",
+      "label": "Category",
+      "default": "Design"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Minimalist Spaces"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_excerpt",
+      "label": "Excerpt",
+      "default": "Creating calm through thoughtful design and intentional curation."
+    },
+    {
+      "type": "url",
+      "id": "card_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Card title size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_excerpt_size",
+      "label": "Card excerpt size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_category",
+      "label": "Category",
+      "default": "Culture"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Title",
+      "default": "Artisan Stories"
+    },
+    {
+      "type": "url",
+      "id": "feature_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_category",
+      "label": "Category",
+      "default": "Travel"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Title",
+      "default": "Hidden Destinations"
+    },
+    {
+      "type": "url",
+      "id": "feature_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "feature_text_color",
+      "label": "Feature text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "feature_title_size",
+      "label": "Feature title size",
+      "min": 20,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Magazine editorial"
+    }
+  ]
+}
+{% endschema %}
