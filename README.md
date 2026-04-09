@@ -6,7 +6,7 @@ Pragmatic workflow for developing and maintaining stores built on off-the-shelf 
 * Pull in Shopify Admin code/template changes (including Theme Store updates)
 * Exclude content and settings from Git
 
-**v1.1.0**
+**v1.1.1**
 
 ---
 
@@ -75,11 +75,8 @@ You're ready to develop.
 shopify theme pull
 git diff                        # Inspect any admin-side changes
 # Make your changes
-shopify theme dev               # Preview locally
-git add .
-git commit -m "feat: describe your change"
-git push origin main
-shopify theme push              # Deploy (doesn't touch content/settings)
+# Commit and push your changes to git
+shopify theme push
 ```
 
 ---
