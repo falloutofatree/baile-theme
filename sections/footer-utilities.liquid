@@ -5,12 +5,19 @@
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   {{ section.shopify_attributes }}
 >
+  {% assign total_blocks = section.blocks.size | plus: 1 %}
   <div
-    class="utilities utilities--blocks-{{ section.blocks.size }} spacing-style"
+    class="utilities utilities--blocks-{{ total_blocks }} spacing-style"
     style="{% render 'spacing-style', settings: section.settings %} --border-width: {{ section.settings.divider_thickness }}px; --gap: {{ section.settings.gap }}px;"
     data-testid="footer-utilities"
   >
     {% content_for 'blocks' %}
+    <button class="footer-back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M7 12V3M7 3L3 7M7 3L11 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to top
+    </button>
   </div>
 </div>
 

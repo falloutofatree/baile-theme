@@ -224,10 +224,207 @@ summary.details__header {
     flex-direction: column !important;
     gap: 24px !important;
   }
-  
 
   .shopify-section-group-footer-group .footer-content > .group-block:has(.social-icons__wrapper) {
     order: 99 !important;
+  }
+}
+
+/* =============================================================
+   FOOTER ENHANCEMENTS
+   ============================================================= */
+
+/* --- Ornamental Botanical Divider ---
+   Replace the plain line with a centered leaf ornament flanked by lines */
+
+.shopify-section-group-footer-group .divider {
+  position: relative;
+}
+
+.shopify-section-group-footer-group .divider__line {
+  border-bottom-color: transparent !important;
+}
+
+.shopify-section-group-footer-group .divider::before,
+.shopify-section-group-footer-group .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+  max-width: 45%;
+}
+
+.shopify-section-group-footer-group .divider .divider__line {
+  flex-basis: auto !important;
+  min-height: 0 !important;
+  width: 40px;
+  height: 40px;
+  border: none !important;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M20 8c0 0-4 6-12 10 8-1 12 2 12 2s4-3 12-2c-8-4-12-10-12-10z' stroke='%235d5e4c' stroke-width='1.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20 18v14' stroke='%235d5e4c' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M17 26c0 0 2-3 3-4 1 1 3 4 3 4' stroke='%235d5e4c' stroke-width='1' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+  opacity: 0.5;
+}
+
+/* --- Footer Link Hover Effects ---
+   Animated underline that grows from the left */
+
+.shopify-section-group-footer-group footer.section-wrapper a:not(.link):not(.button):not([class*="button"]) {
+  position: relative;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+}
+
+.shopify-section-group-footer-group footer.section-wrapper a:not(.link):not(.button):not([class*="button"])::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.shopify-section-group-footer-group footer.section-wrapper a:not(.link):not(.button):not([class*="button"]):hover::after {
+  width: 100%;
+}
+
+/* --- Social Icon Hover Effects ---
+   Gentle scale + lift on hover */
+
+.shopify-section-group-footer-group .social-icons__wrapper a {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  display: inline-flex;
+}
+
+.shopify-section-group-footer-group .social-icons__wrapper a:hover {
+  transform: translateY(-3px) scale(1.15);
+  opacity: 0.8;
+}
+
+/* --- Staggered Scroll-Reveal Animation ---
+   Footer columns fade & slide up when scrolling into view */
+
+@keyframes footerReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shopify-section-group-footer-group footer.section-wrapper .footer-content > * {
+  animation: footerReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 30%;
+}
+
+/* Stagger each column */
+.shopify-section-group-footer-group footer.section-wrapper .footer-content > *:nth-child(1) {
+  animation-delay: 0s;
+}
+.shopify-section-group-footer-group footer.section-wrapper .footer-content > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.shopify-section-group-footer-group footer.section-wrapper .footer-content > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.shopify-section-group-footer-group footer.section-wrapper .footer-content > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+/* Fallback for browsers that don't support animation-timeline */
+@supports not (animation-timeline: view()) {
+  .shopify-section-group-footer-group footer.section-wrapper .footer-content > * {
+    animation: footerReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* --- Newsletter Section Enhancement ---
+   Subtle accent line & typography polish */
+
+.shopify-section-group-footer-group .shopify-section:first-child .section {
+  position: relative;
+}
+
+.shopify-section-group-footer-group .shopify-section:first-child h5 {
+  font-family: "Americana", serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+/* Subtle pulsing glow on the email signup button */
+.shopify-section-group-footer-group .email-signup__submit {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.shopify-section-group-footer-group .email-signup__submit:hover {
+  box-shadow: 0 4px 16px rgb(var(--color-primary-rgb) / 0.25);
+  transform: translateY(-1px);
+}
+
+/* --- Back-to-Top Button Styling --- */
+
+.footer-back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--color-foreground-muted);
+  font-family: "Quattrocento Sans", sans-serif;
+  font-size: 0.75rem;
+  padding: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+  letter-spacing: 0.04em;
+}
+
+.footer-back-to-top:hover {
+  color: var(--color-foreground);
+  transform: translateY(-2px);
+}
+
+.footer-back-to-top svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.footer-back-to-top:hover svg {
+  transform: translateY(-3px);
+}
+
+/* --- Footer Utilities Divider Enhancement --- */
+
+.footer-utilities .utilities {
+  border-top-style: dashed;
+}
+
+/* --- Payment Icons Spacing --- */
+
+.shopify-section-group-footer-group .payment-icons {
+  gap: 4px;
+}
+
+/* --- Reduce motion for accessibility --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .shopify-section-group-footer-group footer.section-wrapper .footer-content > * {
+    animation: none;
+  }
+
+  .shopify-section-group-footer-group .social-icons__wrapper a:hover {
+    transform: none;
+  }
+
+  .footer-back-to-top:hover {
+    transform: none;
+  }
+
+  .footer-back-to-top:hover svg {
+    transform: none;
   }
 }
 
