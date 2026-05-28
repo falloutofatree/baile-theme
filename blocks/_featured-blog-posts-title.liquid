@@ -13,7 +13,6 @@
 {%- enddoc -%}
 
 
-
 {% liquid
   if closest.blog != blank
     assign blog_title = closest.blog.title
@@ -26,7 +25,6 @@
 
 {% capture blog_title_text %}
   <h3>{{ blog_title }}</h3>
-
 {% endcapture %}
 
 {% render 'text', fallback_text: blog_title_text, block: block %}

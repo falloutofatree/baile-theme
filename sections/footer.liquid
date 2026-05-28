@@ -1,5 +1,3 @@
-
-
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
@@ -53,6 +51,11 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--footer-gap);
+    align-items: start;
+  }
+
+  .footer-content .menu__heading__default {
+    font-weight: var(--font-heading--weight);
   }
 
   @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -90,7 +93,6 @@
 {
   "name": "t:names.footer",
   "class": "section-wrapper",
-  "tag": "footer",
   "blocks": [
     {
       "type": "_divider"
